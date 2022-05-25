@@ -1,20 +1,17 @@
 var express = require('express');
-
+const json = require('../../file.json');
 var router = express.Router();
 
 
 router.get('/', async (req, res) => {
-    // const email = "g@g.g";
-    // const userName = "g";
-    // const room = "Sport"
-    // if(userName === req.query.userName && email === req.query.email && room === req.query.room)
-    //     {
-    //         res.json({sucsses:true})
-    //     }
-    //     else{
-    //         res.json({sucsses:false})
-    //     }
-    res.json({sucsses:true})
+    let findUser = json.users.find((user)=>user.name === req.query.userName && user.email === req.query.email )
+    if(findUser)
+        {
+            res.json({sucsses:true, data: findUser})
+        }
+        else{
+            res.json({sucsses:false})
+        }
 });
 
 module.exports = router;

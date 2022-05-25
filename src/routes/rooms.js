@@ -1,17 +1,12 @@
 var express = require('express');
+const json = require('../../file.json');
 
 var router = express.Router();
 
 
 router.get('/', async (req, res) => {
-    res.send({
-        data: [
-            {id:null,name:'Select an option'},
-            {id:'1',name:'room1'},
-            {id:'2',name:'room2'},
-            {id:'3',name:'room3'},
-    ]
-    })
+    let findRoomsByUserId = json.rooms.filter((room)=>room.users.includes(Number(req.query.userId)))
+    res.send({data: findRoomsByUserId})
 });
 
 module.exports = router;

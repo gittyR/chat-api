@@ -1,0 +1,49 @@
+{
+    "users":[
+        {
+            "id": 1,
+            "name": "gitty",
+            "email": "g@g"
+        },
+        {
+            "id": 2,
+            "name": "pinchas",
+            "email": "p@p"
+        },
+        {
+            "id": 3,
+            "name": "chani",
+            "email": "c@c"
+        },
+        {
+            "id": 4,
+            "name": "fraidy",
+            "email": "f@f"
+        },
+        {
+            "id": 5,
+            "name": "moshi",
+            "email": "m@m"
+        }
+    ],
+
+
+
+    "rooms": [
+        {
+            "id": 1,
+            "name": "room1",
+            "users": [1,2,3]
+        },
+        {
+            "id": 2,
+            "name": "room2",
+            "users": [3,4,5]
+        },
+        {
+            "id": 3,
+            "name": "room3",
+            "users": [1,4,5]
+        }
+    ]
+}

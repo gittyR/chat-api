@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
     res.status(200).send('Hello world');
 });
 
-app.use('/get-rooms', roomsRouter);
+app.use('/get-rooms-by-userId', roomsRouter);
 
 app.use('/login', loginRouter)
 

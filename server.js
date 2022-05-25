@@ -5,62 +5,41 @@ const port = process.env.PORT;
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["my-custom-header"],
-      credentials: true,
-    },
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
+});
+
+io.on('connection', socket => {
+
+  socket.on("join-room", (data) => {
+    console.log(data.room, data);
+    socket.join(data.room);
+    room = data.room;
   });
 
-  const rooms = ["room1", "room2", "room3"]
-io.on('connection', socket => {
-    socket.on("room1", ({ username, room }) => {
-      // const user = newUser(socket.id, username, room);
-     console.log("receiving message:" , {username, room}) 
-      socket.join(rooms);
-  
-      // General welcome
-     socket.emit('room1', username);
-  
-      // Broadcast everytime users connects
-      // socket.broadcast
-      //   .to(user.room)
-      //   .emit(
-      //     'message',
-      //     formatMessage("WebCage", `${user.username} has joined the room`)
-      //   );
-  
-      // Current active users and room name
-      // io.to(user.room).emit('roomUsers', {
-      //   room: user.room,
-      //   users: getIndividualRoomUsers(user.room)
-      // });
-    });
-  
-    // Listen for client message
-    socket.on('chatMessage', msg => {
-      const user = getActiveUser(socket.id);
-  
-      io.to(user.room).emit('message');
-    });
-  
-    // Runs when client disconnects
-    socket.on('disconnect', () => {
-      const user = exitRoom(socket.id);
-  
-      if (user) {
-        io.to(user.room).emit(
-          'message'
-        );
-  
-        // Current active users and room name
-        io.to(user.room).emit('roomUsers', {
-          room: user.room,
-          users: getIndividualRoomUsers(user.room)
-        });
-      }
-    });
+  socket.on('request-users', function(){
+    socket.to(room).emit('users', {users: users});
+    console.log(users);
   });
+
+  socket.on('add-user', function (data) {
+
+    io.to(room).emit('add-user', {
+      username: data.username
+    });
+    username = data.username;
+    users.push(data.username);
+  });
+
+
+  // socket.on('disconnect', function (data) {
+  //   users.splice(users.indexOf(username), 1);
+  //   io.to(room).emit('remove-user', { username: username });
+  // });
+});
 
 server.listen(port);
